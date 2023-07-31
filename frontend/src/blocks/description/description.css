@@ -1,0 +1,8 @@
+.description {
+  min-width: 244px;
+  min-height: 23px;
+  margin: 20px 22px 20px 21px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

@@ -1,0 +1,6 @@
+.popup__input_field_avatar {
+  margin: 0;
+}
+.popup__input_field_avatar:last-of-type {
+  margin-top: 0;
+}

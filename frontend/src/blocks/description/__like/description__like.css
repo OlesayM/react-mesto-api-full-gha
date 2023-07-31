@@ -1,0 +1,14 @@
+.description__like {
+  border: none;
+  background: url('../../../images/like.svg') center no-repeat;
+  cursor: pointer;
+  height: 19px;
+  width: 22px;
+  top: 5px;
+  right: 5px;
+  padding: 0;
+}
+.description__like:hover {
+  opacity: 0.5;
+}
+

@@ -1,0 +1,10 @@
+.user-field {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+@media screen and (max-width: 522px) {
+  .user-field {
+      gap: 10px;
+  }
+}
