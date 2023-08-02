@@ -86,21 +86,18 @@ function App() {
   function handleCardLike(card) {
     const jwt = localStorage.getItem('token');
     // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id);
     console.log(isLiked);
     // Отправляем запрос в API и получаем обновлённые данные карточки
     apiConnect
       .changeLikeCardStatus(card._id, isLiked, jwt)
       .then((newCard) => {
-        setCards((state) =>
-          state.map((c) => (c._id === card._id ? newCard : c))
-        );
+        setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
       })
       .catch((err) => {
         console.log(`Возникла ошибка при обработке лайков, ${err}`);
       });
   }
-
   // Обработчик данных пользователя
   function handleUpdateUser(data) {
     const jwt = localStorage.getItem('token');

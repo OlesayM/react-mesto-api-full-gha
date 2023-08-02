@@ -7,12 +7,10 @@ function Card({ card, onCardClick, onCardDelete, onCardLike }) {
   // Определяем, являемся ли мы владельцем текущей карточки
   const isOwn = card.owner === currentUser._id;
   // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
-  const isLiked = card.likes.some((i) => i._id !== currentUser._id);
-  console.log(isLiked);
-  // Создаём переменную, которую после зададим в `className` для кнопки лайка
-  const cardLikeButtonClassName = `description__like ${
-    isLiked && 'description__like_active'
-  }`;
+  const isLiked = card.likes.some((i) => i === currentUser._id);
+  // console.log(isLiked);
+  // Создаём переменную, которую после зададим в className для кнопки лайка
+  const cardLikeButtonClassName = `description__like ${isLiked && 'description__like_active'}`;
  
 
   function handleCardClick() {
