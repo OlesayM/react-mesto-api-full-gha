@@ -7,6 +7,7 @@ const validation = require('./middlewares/validation');
 const { login, createUser } = require('./controllers/users');
 const middlewares = require('./middlewares/middlewares');
 const ErrNotFound = require('./errors/ErrNotFound'); // 404
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 4000 } = process.env;
 const app = express();
@@ -21,13 +22,15 @@ mongoose
     console.log('Не удалось подключиться к Базе данных');
   });
 app.use(express.json());
-// app.use(auth);
+app.use(requestLogger);
 
 app.post('/signin', validation.checkLogin, login);
 app.post('/signup', validation.checkCreateUser, createUser);
 
 app.use('/users', auth, require('./routes/users'));
 app.use('/cards', auth, require('./routes/cards'));
+
+app.use(errorLogger);
 
 app.use('*', auth, (req, res, next) => {
   next(new ErrNotFound('Страница не найдена'));

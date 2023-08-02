@@ -16,24 +16,33 @@ class Api {
   }
 
   // загрузка карточек с сервера
-  getInitialCards() {
+  getInitialCards(token) {
     return fetch(`${this._baseUrl}/cards`, {
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${token}`,
+      },
     }).then(this._responseStatus);
   }
 
   // информация о пользователе с сервера
-  getProfileInfo() {
+  getProfileInfo(token) {
     return fetch(`${this._baseUrl}/users/me`, {
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${token}`,
+      },
     }).then(this._responseStatus);
   }
 
   // редактирование профиля
-  setProfileInfo(data) {
+  setProfileInfo(data, token) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
         name: data.name,
         about: data.about,
@@ -42,10 +51,13 @@ class Api {
   }
 
   // добавление новой карточки на сервер
-  setNewCard(data) {
+  setNewCard(data, token) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
         name: data.name,
         link: data.link,
@@ -54,10 +66,13 @@ class Api {
   }
 
   // обновление аватара пользователя
-  setUserAvatar(data) {
+  setUserAvatar(data, token) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
         avatar: data.avatar,
       }),
@@ -81,28 +96,26 @@ class Api {
   // }
 
   // работа кнопки лайк
-  changeLikeCardStatus (data, isLiked) {
-    if (isLiked) {
-      return fetch(`${this._baseUrl}/cards/${data}/likes/`, {
-        method: 'PUT',
-        headers: this._headers,
-      })
-      .then(this._responseStatus);
-    } else {
-      return fetch(`${this._baseUrl}/cards/${data}/likes/`, {
-        method: 'DELETE',
-        headers: this._headers,
-      })
-      .then(this._responseStatus);
-    }
+  changeLikeCardStatus (data, isLiked, token) {
+    return fetch(`${this._baseUrl}/cards/${data}/likes`, {
+      method: `${isLiked ? 'DELETE' : 'PUT'}`,
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(this._responseStatus);
   }
 
 
   // удаление карточки
-  removeCard(data) {
+  removeCard(data, token) {
     return fetch(`${this._baseUrl}/cards/${data._id}`, {
       method: 'DELETE',
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${token}`,
+      },
     }).then(this._responseStatus);
   }
   getServerData() {

@@ -15,6 +15,7 @@ import Login from './Login';
 import InfoTooltip from './InfoTooltip';
 import ProtectedRoute from './ProtectedRoute';
 import * as auth from '../utils/auth';
+// import apiFindings from '../utils/utils';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -32,17 +33,26 @@ function App() {
 
   // Рендер карточек и данных пользователя
   useEffect(() => {
-    if (!loggedIn) {
-      return;
+    const jwt = localStorage.getItem('token');
+    if (loggedIn) {
+      apiConnect
+        .getProfileInfo(jwt)
+        .then((data) => {
+          setCurrentUser(data);
+          setUserEmail(data.email);
+        })
+        .catch((err) => {
+          console.log(`Error: ${err}`);
+        });
+        apiConnect
+        .getInitialCards(jwt)
+        .then((data) => {
+          setCards(data.reverse());
+        })
+        .catch((err) => {
+          console.log(`Error: ${err}`);
+        });
     }
-    Promise.all([apiConnect.getProfileInfo(), apiConnect.getInitialCards()])
-      .then(([response, card]) => {
-        setCurrentUser(response);
-        setCards(card);
-      })
-      .catch((err) => {
-        console.log(`Возникла глобальная ошибка, ${err}`);
-      });
   }, [loggedIn]);
 
   function handleEditAvatarClick() {
@@ -60,8 +70,9 @@ function App() {
   }
 
   function handleCardDelete(card) {
+    const jwt = localStorage.getItem('token');
     apiConnect
-      .removeCard(card)
+      .removeCard(card, jwt)
       .then(() => {
         setCards((cardsArray) =>
           cardsArray.filter((cardItem) => cardItem._id !== card._id)
@@ -73,11 +84,13 @@ function App() {
   }
 
   function handleCardLike(card) {
+    const jwt = localStorage.getItem('token');
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    console.log(isLiked);
     // Отправляем запрос в API и получаем обновлённые данные карточки
     apiConnect
-      .changeLikeCardStatus(card._id, !isLiked)
+      .changeLikeCardStatus(card._id, isLiked, jwt)
       .then((newCard) => {
         setCards((state) =>
           state.map((c) => (c._id === card._id ? newCard : c))
@@ -90,9 +103,10 @@ function App() {
 
   // Обработчик данных пользователя
   function handleUpdateUser(data) {
+    const jwt = localStorage.getItem('token');
     setIsLoading(true);
     apiConnect
-      .setProfileInfo(data)
+      .setProfileInfo(data, jwt)
       .then((data) => {
         setCurrentUser(data);
         closeAllPopups();
@@ -107,9 +121,10 @@ function App() {
 
   // Обработчик изменения аватара
   function handleUpdateAvatar(link) {
+    const jwt = localStorage.getItem('token');
     setIsLoading(true);
     apiConnect
-      .setUserAvatar(link)
+      .setUserAvatar(link, jwt)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
@@ -124,9 +139,10 @@ function App() {
 
   // Обработчик добавления места
   function handleAddPlace(data) {
+    const jwt = localStorage.getItem('token');
     setIsLoading(true);
     apiConnect
-      .setNewCard(data)
+      .setNewCard(data, jwt)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
