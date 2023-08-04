@@ -9,9 +9,9 @@ const middlewares = require('./middlewares/middlewares');
 const ErrNotFound = require('./errors/ErrNotFound'); // 404
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 4000 } = process.env;
+const { PORT = 3000 } = process.env;
 const app = express();
-app.use(cors({ origin: ' http://localhost:3000 ' }));
+app.use(cors({ origin: ' http://localhost:3001 ' }));
 
 mongoose
   .connect('mongodb://127.0.0.1:27017/mestodb')
