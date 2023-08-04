@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 62.84.120.187
+IP 62.84.120.187
 
 Frontend https://mesto.olesaym.nomoreparties.co
 
