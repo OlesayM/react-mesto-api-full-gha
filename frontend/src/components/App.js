@@ -87,7 +87,6 @@ function App() {
     const jwt = localStorage.getItem('token');
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some((i) => i === currentUser._id);
-    console.log(isLiked);
     // Отправляем запрос в API и получаем обновлённые данные карточки
     apiConnect
       .changeLikeCardStatus(card._id, isLiked, jwt)
@@ -164,7 +163,6 @@ function App() {
     auth
       .registration(data)
       .then((data) => {
-        console.log(data);
         setSuccessSignUp(true);
         navigate('/sign-in');
       })
