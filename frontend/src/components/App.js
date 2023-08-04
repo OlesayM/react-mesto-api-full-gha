@@ -183,6 +183,7 @@ function App() {
         navigate('/');
       })
       .catch((err) => {
+        setIsInfoTooltipOpen(false);
         setSuccessSignUp(false);
         console.log(err);
       });
