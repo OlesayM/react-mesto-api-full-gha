@@ -11,7 +11,10 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000 } = process.env;
 const app = express();
-app.use(cors({ origin: ' http://localhost:3001 ' }));
+app.use(cors({
+  origin: ' https://mesto.olesaym.nomoreparties.co ',
+  credentials: true,
+}));
 
 mongoose
   .connect('mongodb://127.0.0.1:27017/mestodb')
@@ -23,7 +26,11 @@ mongoose
   });
 app.use(express.json());
 app.use(requestLogger);
-
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 app.post('/signin', validation.checkLogin, login);
 app.post('/signup', validation.checkCreateUser, createUser);
 

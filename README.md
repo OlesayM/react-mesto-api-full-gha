@@ -9,8 +9,8 @@
 
 ## Ссылки на проект
 
-IP-адрес x.x.x.x
+IP-адрес 62.84.120.187
 
-Frontend https://...
+Frontend https://mesto.olesaym.nomoreparties.co
 
-Backend https://...
+Backend https://api.mesto.olesaym.nomoreparties.co

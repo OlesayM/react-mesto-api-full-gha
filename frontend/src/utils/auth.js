@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:4000';
+const BASE_URL = 'https://api.mesto.olesaym.nomoreparties.co';
 
 export const registration = ({ password, email }) => {
     return fetch(`${BASE_URL}/signup`, {
